@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { initDB } from './config/db';
 import { authRoutes } from './modules/auth/auth.route';
+import { UserRoutes } from './modules/users/user.routes';
 const app = express();
 
 //parser
@@ -15,6 +16,9 @@ app.get('/', (req: Request, res: Response) => {
 
 // auth routes
 app.use('/api/v1/auth', authRoutes);
+
+// user routes
+app.use('/api/v1/users', UserRoutes)
 
 
 // 404 route

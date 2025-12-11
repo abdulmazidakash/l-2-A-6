@@ -43,5 +43,5 @@ export const initDB = async () => {
         )
         `
     );
-    console.log("database table added");
+    console.log("Database table created successfully");
 };
