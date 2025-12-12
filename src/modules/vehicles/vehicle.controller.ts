@@ -1,0 +1,151 @@
+import { Request, Response } from "express";
+import { vehicleService } from "./vehicle.service";
+
+const createVehicle = async (req: Request, res: Response) => {
+    try {
+        const result = await vehicleService.addVehicle(req.body);
+        console.log(result);
+        res.status(201).json({
+            success: true,
+            message: "Vehicle created successfully",
+            data: result.rows[0],
+        });
+    } catch (error: any) {
+        res.status(401).json({
+            success: false,
+            message: "Failed to create Vehicle",
+            error: error?.message,
+        });
+    }
+};
+
+const getVehicle = async (req: Request, res: Response) => {
+    try {
+        const result = await vehicleService.getAllVehicle();
+
+        if (result.rowCount === 0) {
+            return res.status(200).json({
+                success: true,
+                message: "No vehicle found",
+                data: result.rows,
+            });
+        };
+
+        // console.log(result);
+        return res.status(200).json({
+            success: true,
+            message: "Fetch all vehicle data",
+            data: result.rows,
+        });
+    } catch (error: any) {
+        res.status(401).json({
+            success: false,
+            message: "Failed all vehicle data",
+            error: error?.message,
+        });
+    }
+};
+
+const getSingleVehicle = async (req: Request, res: Response) => {
+    try {
+        const { vehicleId } = req.params;
+
+        if (isNaN(Number(vehicleId))) {
+            return res.status(400).json({
+                message: "please provide a valid Vehicle id",
+            });
+        }
+        const singleVehicle = await vehicleService.singleVehicle(
+            vehicleId as string
+        );
+        if (singleVehicle.rowCount === 0) {
+            return res.status(404).json({
+                message: "Vehicle not found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Vehicle retrieved successfully",
+            data: singleVehicle.rows[0],
+        });
+    } catch (error: any) {
+        console.log(error?.message);
+        res.status(400).json({
+            success: false,
+            message: "Not found any Vehicle",
+        });
+    }
+};
+
+const updateVehicle = async (req: Request, res: Response) => {
+    try {
+        const { vehicleId } = req.params; // 1
+
+        if (isNaN(Number(vehicleId))) {
+            res.status(400).json({
+                message: "please provide a valid Vehicle id",
+            });
+        }
+        const singleVehicleUpdate = await vehicleService.singleVehicleUpdate(
+            req.body,
+            vehicleId as string
+        );
+        if (singleVehicleUpdate.rowCount === 0) {
+            res.status(404).json({
+                message: "Vehicle not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Vehicle Update successfully",
+            data: singleVehicleUpdate.rows[0],
+        });
+    } catch (error: any) {
+        res.status(400).json({
+            success: false,
+            message: "Not found Vehicle",
+            error: error?.message,
+        });
+    }
+};
+
+const deleteVehicle = async (req: Request, res: Response) => {
+    try {
+        const { vehicleId } = req.params; 
+
+        if (isNaN(Number(vehicleId))) {
+            res.status(400).json({
+                message: "please provide a valid Vehicle id",
+            });
+        }
+        const singleVehicle = await vehicleService.deleteSingleVehicle(
+            vehicleId as string
+        );
+        if (singleVehicle.rowCount === 0) {
+            res.status(404).json({
+                message: "Vehicle not found",
+            });
+        }
+        res.status(200).json({
+            success: true,
+            message: "Successfully delete",
+            data: singleVehicle.rows[0],
+        });
+    } catch (error: any) {
+        console.log(error?.message);
+        res.status(400).json({
+            success: false,
+            message: "something went wrong",
+        });
+    }
+};
+
+export const vehicleController = {
+    createVehicle,
+    getVehicle,
+    getSingleVehicle,
+    updateVehicle,
+    deleteVehicle,
+};
