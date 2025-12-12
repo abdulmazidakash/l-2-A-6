@@ -30,7 +30,7 @@ app.use('/api/v1/bookings', bookingsRouter);
 
 
 // 404 route
-app.use((req, res) => {
+app.use((req: Request, res: Response) => {
     res.status(404).json({
         success: false,
         message: 'route not found',
