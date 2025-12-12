@@ -8,6 +8,7 @@ Built using **Node.js**, **Express.js**, **TypeScript**, and **PostgreSQL**.
 ## 🌐 Live Deployment
 
 **Live API URL:** [https://l-2-a-6.vercel.app]
+
 **GitHub Repository:** [https://github.com/abdulmazidakash/l-2-A-6]
 
 ---
@@ -203,13 +204,12 @@ Authorization: Bearer <your_token>
   "errors": {}
 }
 ```
-
-
 ---
 
 ## 👨‍💻 Author
 
 **Abdul Mazid Akash**
+
 Backend Developer | Full Stack Enthusiast
 
 
